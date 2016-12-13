@@ -24,10 +24,8 @@ class FileHandler(object):
         # Parse label data
         labelFile = open("hw2class.dat", "r")
         labelData = []
-        for line in labelFile.readlines():
-            tmp = line.split()
-            labelData.append(tmp)
-        labelData = np.array(labelData, dtype='uint8')
+        line = labelFile.readline()
+        labelData = np.array(line.split(), dtype='uint8')
         return trainingData, labelData
 
 if __name__ == '__main__':
