@@ -92,7 +92,7 @@ function training(X, Y_head)
     cur = pwd;
     disp(cur);
     file_name = fopen('C:\Users\Louis\Documents\NeuralNetwork\hw1\error.txt', 'w');
-    for j = 1 : 200
+    for j = 1 : 250
         disp(j);
         sigma = 0;
         [~, c] = size(X);
@@ -111,20 +111,32 @@ function training(X, Y_head)
     end
     fclose(file_name);
     
-    plot(X(1, find(Y_head == 0)), X(2, find(Y_head == 0)), 'x', X(1, find(Y_head == 1)), X(2, find(Y_head == 1)), 'o');
-    for weights = weightList{1}
-        a = 0 : 1: 6;
-        %a = 0: 0.1: 1;
-        w1 = weights(1);
-        w2 = weights(2);
-        w3 = weights(3);
-        b = ((-w1*a) - w3)/w2;
-        hold on;
-        plot(a, b, 'r');
-        ylim([0 6]);
-        %ylim([0 1]);
-        hold off;
+    X_test = [1 3 5 1 3 5 1 3 5; 1 1 1 3 3 3 5 5 5];
+     [~, c] = size(X_test);
+    for i = 1 : c
+        Xi = X_test(:, i);
+        [y, netList] = neuralOutput(Xi);
+        for i =  1: length(netList)
+            disp(netList{i})
+            disp('======')
+        end
     end
+    
+    
+%     plot(X(1, find(Y_head == 0)), X(2, find(Y_head == 0)), 'x', X(1, find(Y_head == 1)), X(2, find(Y_head == 1)), 'o');
+%     for weights = weightList{1}
+%         a = 0 : 1: 6;
+%         %a = 0: 0.1: 1;
+%         w1 = weights(1);
+%         w2 = weights(2);
+%         w3 = weights(3);
+%         b = ((-w1*a) - w3)/w2;
+%         hold on;
+%         plot(a, b, 'r');
+%         ylim([0 6]);
+%         %ylim([0 1]);
+%         hold off;
+%     end
 
 end
 
