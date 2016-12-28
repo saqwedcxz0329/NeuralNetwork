@@ -24,7 +24,7 @@ function initWeights(layers)
     for i = 2:length(layers)
         Wij = [];
         for j = 1: layers(i)
-            Weights = (rand(1, layers(i-1) + 1)'  )  ;
+            Weights = (rand(1, layers(i-1) + 1)');
             Wij = [Wij Weights];
         end
         weightList{i-1} = Wij;
@@ -53,6 +53,18 @@ function training(X, Y_head)
         disp(sigma);
         index = index + 1;
     end
+    
+    X_test = [0.15 0.5 0.85 0.15 0.5 0.85 0.15 0.5 0.85; 0.15 0.15 0.15 0.5 0.5 0.5 0.85 0.85 0.85];
+     [~, c] = size(X_test);
+    for i = 1 : c
+        Xi = X_test(:, i);
+        [y, netList] = neuralOutput(Xi);
+        for i =  1: length(netList)
+            disp(netList{i})
+            disp('======')
+        end
+    end
+    
     
     for weights = weightList{1}
         a = 0 : 0.1: 1;

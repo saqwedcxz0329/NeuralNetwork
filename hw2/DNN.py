@@ -100,7 +100,7 @@ class DNN (object):
                 Wm = Wm - (self.etaAtt * eAtt + self.etaRep * eRep)
                 
                 if epoch % 100 == 0:
-                    print "---------------Train %d layer %d epoch---------------" %(m, epoch)
+                    print "---------------Training %dth layer %d epoch---------------" %(m, epoch)
                     print "MaxArg: " + str(maxArg)
                     print "MinArg: " + str(minArg)
                     
