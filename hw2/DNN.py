@@ -57,6 +57,7 @@ class DNN (object):
         return 1 / (1 + np.exp(-Ym))
     
     def training(self):
+        log_file = open("output.log", 'w')
         self._initWeight()
         X = self.X
         Y = self.Y
@@ -69,7 +70,7 @@ class DNN (object):
                 Ym = self._sigmoid(Ym)
                 Yn = X
                 
-                # Compute longest distance  within the same class
+                # Compute longest distance within the same class
                 # Compute shortest distance within different class
                 maxArg = -sys.maxint
                 minArg = sys.maxint
@@ -77,6 +78,7 @@ class DNN (object):
                 q = -1
                 r = -1
                 s = -1
+                    
                 for i in range(X.shape[0]):
                     for j in range(i+1, X.shape[0]):
                         yi = Ym[i]
@@ -100,15 +102,18 @@ class DNN (object):
                 Wm = Wm - (self.etaAtt * eAtt + self.etaRep * eRep)
                 
                 if epoch % 100 == 0:
+                    log_file.write("---------------Training %dth layer %d epoch---------------" %(m, epoch))
+                    log_file.write("MaxArg: " + str(maxArg))
+                    log_file.write("MinArg: " + str(minArg))
                     print "---------------Training %dth layer %d epoch---------------" %(m, epoch)
                     print "MaxArg: " + str(maxArg)
                     print "MinArg: " + str(minArg)
                     
-            ########Outer for###########
+            ######## Inner for###########
             Ym = np.concatenate((Ym, np.ones((X.shape[0], 1))), axis = 1)
             X = Ym
             self.W[m] = Wm
-        
+        ######## Outter for###########
         Ym = Ym.T
         for i in range(Ym[0].shape[0]):
             if Ym[0][i] > 0.5:
