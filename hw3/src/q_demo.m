@@ -101,6 +101,7 @@ disp('figure1 ResizeFcn not implemented yet.')
 % --------------------------------------------------------------------
 % It is the main start button for q-learning demo
 function varargout = pushbutton1_Callback(h, eventdata, handles, varargin)
+    fileID = fopen('successful.txt','w');
     opengl autoselect;
     global ALPHA BETA GAMMA BETAACE;
     global x_vec w v e x_bar;
@@ -145,11 +146,11 @@ function varargout = pushbutton1_Callback(h, eventdata, handles, varargin)
     GZ=zeros(9,18);
     best=0;
     p_before = 0;
-	while success<100000
+	while trial<=200
         x_vec = Box(x,v_x,theta,v_theta, NUM_BOX);
         [reward_hat, p_before] = ACE(BETAACE, 0.8, 0, 0.95, p_before);
         cur_action = ASE(1000, 0.9, reward_hat);
-        %[q_val,v_val,pre_state,pre_action,cur_state,cur_action] = get_action(x,v_x,theta,v_theta,reinf,q_val,v_val,pre_state,cur_state,pre_action,cur_action,ALPHA,BETA,GAMMA);
+%         [q_val,v_val,pre_state,pre_action,cur_state,cur_action] = get_action(x,v_x,theta,v_theta,reinf,q_val,v_val,pre_state,cur_state,pre_action,cur_action,ALPHA,BETA,GAMMA);
         if (cur_action==1)   % push left
             F=-1*Force;
         else  F=Force;    % push right
@@ -187,13 +188,14 @@ function varargout = pushbutton1_Callback(h, eventdata, handles, varargin)
             x_vec = Box(x,v_x,theta,v_theta, NUM_BOX);
             [reward_hat, p_before] = ACE(BETAACE, 0.8, -1, 0.95, p_before);
             ASE(1000, 0.9, reward_hat);
-            %[q_val,v_val] = failed_update(q_val, v_val, pre_state, pre_action, reinf, predicted_value);
+%             [q_val,v_val] = failed_update(q_val, v_val, pre_state, pre_action, reinf, predicted_value);
         	[pre_state,cur_state,pre_action,cur_action,x,v_x,theta,v_theta] = reset_cart(BETA);  % reset the cart pole to initial state
             trial=trial+1;
             p_before = 0;
             if (success>best)
                 best=success;
             end
+            fprintf(fileID, '%d\n',success);
             success=0;
             figure(h1);
             title(strcat('Trials  ',num2str(trial),', Best success : ',num2str(best)));
@@ -220,6 +222,7 @@ function varargout = pushbutton1_Callback(h, eventdata, handles, varargin)
 	end %while
     figure(h1);
     title(strcat('Success at ',num2str(trial)),' trials');
+    fclose(fileID);
 
     
 
