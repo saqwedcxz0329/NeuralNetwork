@@ -57,7 +57,6 @@ class DNN (object):
         return 1 / (1 + np.exp(-Ym))
     
     def training(self):
-        log_file = open("output.log", 'w')
         self._initWeight()
         X = self.X
         Y = self.Y
@@ -102,9 +101,6 @@ class DNN (object):
                 Wm = Wm - (self.etaAtt * eAtt + self.etaRep * eRep)
                 
                 if epoch % 100 == 0:
-                    log_file.write("---------------Training %dth layer %d epoch---------------" %(m, epoch))
-                    log_file.write("MaxArg: " + str(maxArg))
-                    log_file.write("MinArg: " + str(minArg))
                     print "---------------Training %dth layer %d epoch---------------" %(m, epoch)
                     print "MaxArg: " + str(maxArg)
                     print "MinArg: " + str(minArg)
