@@ -117,9 +117,9 @@ class DNN (object):
         Ym = Ym.T
         for i in range(Ym[0].shape[0]):
             if Ym[0][i] > 0.5:
-                Ym[0][i] = 1
-            else:
                 Ym[0][i] = 0
+            else:
+                Ym[0][i] = 1
         print np.square(np.linalg.norm(Y - Ym[0]))
 
     
